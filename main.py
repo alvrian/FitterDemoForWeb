@@ -3,8 +3,8 @@ import tensorflow as tf
 from PIL import Image
 import numpy as np
 import  keras.utils as utils
-from sklearn.preprocessing import LabelEncoder
-import matplotlib.pyplot as plt
+# from sklearn.preprocessing import LabelEncoder
+# import matplotlib.pyplot as plt
 import pandas as  pd
 import io
 model = tf.keras.models.load_model('model.h5')
@@ -54,21 +54,25 @@ def main():
             x = utils.img_to_array(x)
             x = x.reshape(1, 110, 110, 3) / 255
 
-        prediction = make_prediction(x)
-        st.image(Image.open(image))
-        st.write(prediction)
-        confidence_score = np.max(model.predict(x))
-        st.write("Confidence Score:", confidence_score)
+            prediction = make_prediction(x)
+            st.image(Image.open(image))
+            st.write("Predicted Class:", prediction)
+            
+            confidence_score = np.max(model.predict(x))
+            st.write("Confidence Score:", round(confidence_score, 4))
 
-        if confidence_score < 0.85:
-            st.warning("The model's prediction has a low confidence score (below 85%) and may not be reliable.")
+            if confidence_score < 0.85:
+                st.warning("The model's prediction has a low confidence score (below 85%) and may not be reliable.")
 
-        if prediction in nutrition_facts:
-            st.subheader("Nutrition Facts:")
-            nutrition_df = pd.DataFrame(nutrition_facts[prediction], index=[prediction])
-            st.dataframe(nutrition_df)
+            if prediction in nutrition_facts:
+                st.subheader("Nutrition Facts:")
+                nutrition_df = pd.DataFrame(nutrition_facts[prediction], index=[prediction])
+                st.dataframe(nutrition_df)
+            else:
+                st.write("Nutrition facts not available for this predicted class.")
         else:
-            st.write("Nutrition facts not available for this predicted class.")
+            st.error("Please upload an image before clicking the prediction button.")
+
 
 if __name__ == '__main__':
     main()
