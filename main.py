@@ -35,14 +35,18 @@ def make_prediction(image_array):
     prediction = model.predict(image_array)
     prediction = arrKey[np.argmax(prediction)]
     return prediction
-    
+
 def load_image(uploaded_file):
     return io.BytesIO(uploaded_file.read())
 
 def main():
-    st.title('TensorFlow Model Prediction from Random Image Sample')
+    st.title('Fitter')
     uploadFile = st.file_uploader(label="upload image", type=['jpg', 'jpeg', 'png', 'webp'])
-
+    st.sidebar.image("./fitter_logo.webp", width=150)
+    st.sidebar.title("Hi! Welcome to Fitter ")
+    st.sidebar.subheader("This is a Food Classification app that predicts the food class and provides nutrition facts.")
+    st.sidebar.html('<p>We still still have limited amount of food that you can try to classify, this the the list</p>')
+    st.sidebar.html('<lu><li>Rendang</li><li>Telur Matasapi</li><li>Ayam</li><li>Mie<li>Gulai Tambusu</li></lu>')
     if st.button('test prediction'):
         if uploadFile is not None:
             image = load_image(uploadFile)
