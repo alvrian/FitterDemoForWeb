@@ -35,7 +35,7 @@ def make_prediction(image_array):
     prediction = model.predict(image_array)
     prediction = arrKey[np.argmax(prediction)]
     return prediction
-
+    
 def load_image(uploaded_file):
     return io.BytesIO(uploaded_file.read())
 
